@@ -18,7 +18,6 @@ const Models = ({ onSelect, make }: Props) => {
           throw new Error(response.statusText);
         })
         .then((data) => {
-          console.log('models', data);
           setModels(data);
         })
         .catch((error) => {

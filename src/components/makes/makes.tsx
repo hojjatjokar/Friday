@@ -1,29 +1,16 @@
 import React from 'react';
+import useFetch from '../../hooks/useFetch';
+import Error from '../../kit/error';
 
 interface Props {
   onSelect: (make: string) => void;
 }
 
 const Makes = ({ onSelect }: Props) => {
-  const [makes, setMakes] = React.useState([]);
-  const [error, setError] = React.useState(null);
+  const [makes, loading, error, fetchData] = useFetch<any>('makes');
 
-  React.useEffect(() => {
-    fetch('http://localhost:8080/api/makes')
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then((data) => {
-        setMakes(data);
-        if (error) setError(null);
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-  }, []);
-
-  if (error) return <p>{error}</p>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <Error message={error.message} retry={fetchData} />;
 
   return (
     <div>

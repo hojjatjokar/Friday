@@ -36,7 +36,7 @@ const Vehicles = ({ make, model }: Props) => {
 
   if (!make || !model) return null;
   if (error) return <div>{error}</div>;
-  console.log('vehicles', vehicles);
+
   return (
     <section className="vehicles">
       {vehicles.map((vehicle: Vehicle) => (
