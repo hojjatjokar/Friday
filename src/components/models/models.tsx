@@ -11,7 +11,7 @@ const Models = ({ onSelect, make }: Props) => {
   const [models, loading, error, fetchData] = useFetch<any>(
     `models?make=${make}`
   );
-  console.log(models, loading, error);
+
   if (!make) return null;
   if (loading) return <div>Loading...</div>;
   if (error) return <Error message={error.message} retry={fetchData} />;

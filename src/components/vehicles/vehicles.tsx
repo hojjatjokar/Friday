@@ -1,4 +1,6 @@
 import React from 'react';
+import useFetch from '../../hooks/useFetch';
+import Error from '../../kit/error';
 import './vehicles.css';
 
 interface Props {
@@ -14,25 +16,13 @@ interface Vehicle {
 }
 
 const Vehicles = ({ make, model }: Props) => {
-  const [vehicles, setVehicles] = React.useState([]);
-  const [error, setError] = React.useState(null);
+  const [vehicles, loading, error, fetchData] = useFetch<any>(
+    `vehicles?make=${make}&model=${model}`
+  );
 
-  React.useEffect(() => {
-    if (make) {
-      fetch(`http://localhost:8080/api/vehicles?make=${make}&model=${model}`)
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then((data) => {
-          setVehicles(data);
-          if (error) setError(null);
-        })
-        .catch((error) => {
-          setError(error.message);
-        });
-    }
-  }, [make, model]);
+  if (!make || !model) return null;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <Error message={error.message} retry={fetchData} />;
 
   if (!make || !model) return null;
   if (error) return <div>{error}</div>;
