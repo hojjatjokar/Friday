@@ -1,4 +1,6 @@
 import React from 'react';
+import Error from '../../kit/error';
+import useFetch from '../../hooks/useFetch';
 
 interface Props {
   onSelect: (make: string) => void;
@@ -6,30 +8,14 @@ interface Props {
 }
 
 const Models = ({ onSelect, make }: Props) => {
-  const [models, setModels] = React.useState([]);
-  const [error, setError] = React.useState(null);
-
-  React.useEffect(() => {
-    if (make) {
-      fetch(`http://localhost:8080/api/models?make=${make}`)
-        .then((response) => {
-          console.log(response);
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then((data) => {
-          setModels(data);
-        })
-        .catch((error) => {
-          console.error(error);
-
-          setError(error.message);
-        });
-    }
-  }, [make]);
-
+  const [models, loading, error, fetchData] = useFetch<any>(
+    `models?make=${make}`
+  );
+  console.log(models, loading, error);
   if (!make) return null;
-  if (error) return <div>{error}</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <Error message={error.message} retry={fetchData} />;
+
   return (
     <div>
       <h2>Models</h2>
