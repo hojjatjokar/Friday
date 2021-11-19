@@ -1,5 +1,6 @@
 import React from 'react';
 import useFetch from '../../hooks/useFetch';
+import Empty from '../../kit/empty';
 import Error from '../../kit/error';
 import './vehicles.css';
 
@@ -23,9 +24,7 @@ const Vehicles = ({ make, model }: Props) => {
   if (!make || !model) return null;
   if (loading) return <div>Loading...</div>;
   if (error) return <Error message={error.message} retry={fetchData} />;
-
-  if (!make || !model) return null;
-  if (error) return <div>{error}</div>;
+  if (!vehicles || vehicles.length === 0) return <Empty />;
 
   return (
     <section className="vehicles">

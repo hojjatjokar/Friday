@@ -1,0 +1,22 @@
+.items-wrapper {
+  width: 100%;
+  overflow: scroll;
+}
+
+.items {
+  padding: 16px 0 16px;
+  display: flex;
+}
+
+.item {
+  padding: 4px;
+  margin: 4px;
+  border: 1px solid var(--gray-100);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.item-selected {
+  background-color: var(--primary-color);
+  color: var(--white);
+}

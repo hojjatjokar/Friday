@@ -1,13 +1,15 @@
 import React from 'react';
 import Error from '../../kit/error';
 import useFetch from '../../hooks/useFetch';
+import List from '../../kit/list';
 
 interface Props {
   onSelect: (make: string) => void;
   make?: string;
+  selectedModel?: string;
 }
 
-const Models = ({ onSelect, make }: Props) => {
+const Models = ({ onSelect, make, selectedModel }: Props) => {
   const [models, loading, error, fetchData] = useFetch<any>(
     `models?make=${make}`
   );
@@ -18,13 +20,8 @@ const Models = ({ onSelect, make }: Props) => {
 
   return (
     <div>
-      <h2>Models</h2>
-      <select onChange={(e) => onSelect(e.target.value)}>
-        <option>Select Model</option>
-        {models.map((model: string) => (
-          <option key={model}>{model}</option>
-        ))}
-      </select>
+      <h2>Choose a model</h2>
+      <List selectedItem={selectedModel} onSelect={onSelect} items={models} />
     </div>
   );
 };

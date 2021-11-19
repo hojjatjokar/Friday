@@ -2,6 +2,7 @@ import React from 'react';
 import Makes from './components/makes/makes';
 import Models from './components/models/models';
 import Vehicles from './components/vehicles/vehicles';
+import './App.css';
 
 const App = () => {
   const [selectedMake, setSelectedMake] = React.useState(null);
@@ -15,8 +16,12 @@ const App = () => {
       <main>
         <section>
           <strong>Select your company and model</strong>
-          <Makes onSelect={setSelectedMake} />
-          <Models make={selectedMake} onSelect={setSelectedModel} />
+          <Makes selectedMake={selectedMake} onSelect={setSelectedMake} />
+          <Models
+            make={selectedMake}
+            onSelect={setSelectedModel}
+            selectedModel={selectedModel}
+          />
         </section>
         <Vehicles make={selectedMake} model={selectedModel} />
       </main>
